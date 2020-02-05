@@ -19,9 +19,9 @@ Additional options:
         default: <input file>-centroids.txt
     -a <algorithm name> 
     	fkm 	- fast k-means (default)
-    	rs  - random swap
-    	sr	- stochastic relaxation
-    	km 	- normal k-means
+    	rs      - random swap
+    	sr      - stochastic relaxation
+    	km      - normal k-means
 
 # Algorithms
 ## k-means
