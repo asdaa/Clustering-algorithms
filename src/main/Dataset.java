@@ -1,9 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Contains the dataset and centroid/partition information
@@ -16,27 +14,46 @@ public class Dataset {
      * Expected number of clusters
      */
     private int numberOfClusters;
+
+    // The following have package visibility, as the getter methods provide a copy
+    // of the values and calling them is expensive
     /**
      * data vectors
      */
-    public double[][] data;
+    double[][] data;
     /**
      * partitioning of data vectors (each value is an index to corresponding
      * centroid)
      */
-    public int[] partitions = null;
+    int[] partitions = null;
     /**
      * centroids; null if not initialized
      */
-    public double[][] centroids = null;
+    double[][] centroids = null;
 
     /**
      * Real centroids of the dataset; null if not loaded
      */
-    public double[][] realCentroids = null;
+    double[][] realCentroids = null;
 
 
-    public Dataset(double[][] data, int numberOfClusters) {
+    /**
+     * @param data the data matrix
+     * @param numberOfClusters number of clusters to calculate
+     * @throws IllegalArgumentException if the data dimensions don't match or the number of clusters is invalid
+     */
+    public Dataset(double[][] data, int numberOfClusters) throws IllegalArgumentException {
+        if (numberOfClusters <= 0)
+            throw new IllegalArgumentException("Dataset(): Number of clusters cannot be <= 0");
+        if (numberOfClusters > data.length)
+            throw new IllegalArgumentException("Dataset(): The number of clusters is greater than the number of data vectors");
+
+        if(data.length > 0){
+            for(double[] v : data){
+                if(v.length != data[0].length)
+                    throw new IllegalArgumentException("Dataset(): Data dimensions don't match");
+            }
+        }
         this.data = data;
         this.numberOfClusters = numberOfClusters;
     }
@@ -44,11 +61,15 @@ public class Dataset {
     /**
      * Constructor that loads the training vectors from file
      *
+     * @param filename file name to load data matrix from (columns separated by whitespace, rows by newline)
+     * @param numberOfClusters number of clusters to calculate
      * @throws IOException           if the file cannot be accessed
-     * @throws IllegalArgumentException if there is an issue parsing the data (invalid dimensions, nonnumerical data,...)
+     * @throws IllegalArgumentException if there is an issue parsing the data (invalid dimensions, nonnumerical data,...),
+     *                                  or the number of clusters is not a valid value
      */
     public Dataset(String filename, int numberOfClusters) throws IOException, IllegalArgumentException {
-        this.numberOfClusters = numberOfClusters;
+        if (numberOfClusters <= 0)
+            throw new IllegalArgumentException("Dataset(): Number of clusters cannot be <= 0");
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         int dimensions = -1;
@@ -77,9 +98,11 @@ public class Dataset {
         }
         br.close();
 
-        if (numberOfClusters > data.size()) {
+        if (numberOfClusters > data.size())
             throw new IllegalArgumentException("Dataset(): The number of clusters is greater than the number of data vectors");
-        }
+
+
+        this.numberOfClusters = numberOfClusters;
         this.data = data.toArray(new double[data.size()][data.get(0).length]);
     }
 
@@ -88,6 +111,45 @@ public class Dataset {
      */
     public int getNumberOfClusters() {
         return numberOfClusters;
+    }
+
+    /**
+     * @return copy of loaded data matrix
+     */
+    public double[][] getData() {
+        double[][] result = new double[data.length][data[0].length];
+        for(int i = 0; i < data.length; i++)
+            result[i] = Arrays.copyOf(data[i], data[i].length);
+        return result;
+    }
+
+    /**
+     * @return copy of data vector partitions
+     */
+    public int[] getPartitions() {
+        return Arrays.copyOf(partitions, partitions.length);
+    }
+
+    /**
+     * @return copy of calculated centroids
+     */
+    public double[][] getCentroids() {
+        double[][] result = new double[centroids.length][centroids[0].length];
+        for(int i = 0; i < centroids.length; i++)
+            result[i] = Arrays.copyOf(centroids[i], centroids[i].length);
+        return result;
+    }
+
+    /**
+     * @return copy of loaded real centroids, or null if not available
+     */
+    public double[][] getRealCentroids() {
+        if(realCentroids == null)
+            return null;
+        double[][] result = new double[realCentroids.length][realCentroids[0].length];
+        for(int i = 0; i < realCentroids.length; i++)
+            result[i] = Arrays.copyOf(realCentroids[i], realCentroids[i].length);
+        return result;
     }
 
     /**

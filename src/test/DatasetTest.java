@@ -5,6 +5,12 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for the Dataset class
+ *
+ * TODO: split the methods to individual test cases
+ * @author Juho Puumalainen
+ */
 class DatasetTest {
 
     private final double EPSILON =  0.00000000001;
@@ -36,19 +42,86 @@ class DatasetTest {
     };
 
     @Test
-    void constructor() throws IOException {
+    void constructors() throws IOException {
         Dataset set = new Dataset("src/test/testdata/s2-truncated.txt", 5);
         assertTrue(Arrays.deepEquals(set.data, S2_TRUNCATED_DATA));
 
-
         // more clusters than data
         assertThrows(IllegalArgumentException.class, () -> new Dataset("src/test/testdata/s2-truncated.txt", 15));
+
+        // too low number of clusters
+        assertThrows(IllegalArgumentException.class, () -> new Dataset("src/test/testdata/s2-truncated.txt", 0));
+        assertThrows(IllegalArgumentException.class, () -> new Dataset("src/test/testdata/s2-truncated.txt", -1));
 
         // nonnumerical data
         assertThrows(IllegalArgumentException.class, () -> new Dataset("src/test/testdata/s2-nonnumerical.txt", 15));
 
         // file does not exist
         assertThrows(IOException.class, () -> new Dataset("src/test/testdata/doesntexist.txt", 15));
+
+        // Constructor which takes the pre-loaded matrix
+        set = new Dataset(S2_TRUNCATED_DATA, 5);
+        assertTrue(Arrays.deepEquals(set.data, S2_TRUNCATED_DATA));
+
+        // more clusters than data
+        assertThrows(IllegalArgumentException.class, () -> new Dataset(new double[][]{}, 2));
+
+        // too low number of clusters
+        assertThrows(IllegalArgumentException.class, () -> new Dataset(new double[][]{}, 0));
+        assertThrows(IllegalArgumentException.class, () -> new Dataset(new double[][]{}, -1));
+
+        // invalid dimensions
+        assertThrows(IllegalArgumentException.class, () -> new Dataset(new double[][]{{1, 2}, {1, 2, 3}}, 2));
+    }
+
+    @Test
+    void getNumberOfClusters() throws IOException {
+        Dataset set = new Dataset("src/test/testdata/s2-truncated.txt", 5);
+        assertEquals(5, set.getNumberOfClusters());
+    }
+
+    @Test
+    void getData() throws IOException {
+        Dataset set = new Dataset("src/test/testdata/s2-truncated.txt", 5);
+        double[][] data = set.getData();
+        assertTrue(Arrays.deepEquals(S2_TRUNCATED_DATA, data));
+        // should be a deep copy
+        set.data[0] = set.data[1];
+        assertFalse(Arrays.deepEquals(set.getData(), data));
+    }
+
+    @Test
+    void getPartitions() throws IOException {
+        Dataset set = new Dataset("src/test/testdata/s2-truncated.txt", 5);
+        set.initializeRandomCentroids();
+        int[] partitions = set.getPartitions();
+        assertArrayEquals(set.partitions, partitions);
+        // should be a deep copy
+        set.partitions[0]++;
+        assertFalse(Arrays.equals(set.getPartitions(), partitions));
+    }
+
+    @Test
+    void getCentroids() throws IOException {
+        Dataset set = new Dataset("src/test/testdata/s2-truncated.txt", 5);
+        set.initializeRandomCentroids();
+        double[][] centroids = set.getCentroids();
+        assertArrayEquals(set.centroids, centroids);
+        // should be a deep copy
+        set.centroids[0] = set.centroids[1];
+        assertFalse(Arrays.equals(set.getCentroids(), centroids));
+    }
+
+    @Test
+    void getRealCentroids() throws IOException {
+        Dataset set = new Dataset("src/test/testdata/s2-truncated.txt", 5);
+        set.initializeRandomCentroids();
+        set.realCentroids = Arrays.copyOf(set.centroids, set.centroids.length);
+        double[][] realCentroids = set.getRealCentroids();
+        assertArrayEquals(set.realCentroids, realCentroids);
+        // should be a deep copy
+        set.realCentroids[0] = set.realCentroids[1];
+        assertFalse(Arrays.equals(set.realCentroids, realCentroids));
     }
 
     @Test
