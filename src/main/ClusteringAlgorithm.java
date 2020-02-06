@@ -1,4 +1,3 @@
-
 public interface ClusteringAlgorithm {
 
 	/** Run clustering until convergence*/

@@ -15,7 +15,7 @@ public class Dataset {
     /**
      * Expected number of clusters
      */
-    public int numberOfClusters;
+    private int numberOfClusters;
     /**
      * data vectors
      */
@@ -44,10 +44,10 @@ public class Dataset {
     /**
      * Constructor that loads the training vectors from file
      *
-     * @throws NumberFormatException if there is an issue parsing the data
      * @throws IOException           if the file cannot be accessed
+     * @throws IllegalArgumentException if there is an issue parsing the data (invalid dimensions, nonnumerical data,...)
      */
-    public Dataset(String filename, int numberOfClusters) throws NumberFormatException, IOException {
+    public Dataset(String filename, int numberOfClusters) throws IOException, IllegalArgumentException {
         this.numberOfClusters = numberOfClusters;
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
@@ -70,15 +70,24 @@ public class Dataset {
                 dimensions = d.length;
 
             if (d.length != dimensions) {
-                System.err.println("Dataset(): Data dimensions don't match");
-                System.exit(1);
+                throw new IllegalArgumentException("Dataset(): Data dimensions don't match");
             }
 
             data.add(d);
         }
         br.close();
 
+        if (numberOfClusters > data.size()) {
+            throw new IllegalArgumentException("Dataset(): The number of clusters is greater than the number of data vectors");
+        }
         this.data = data.toArray(new double[data.size()][data.get(0).length]);
+    }
+
+    /**
+     * @return expected number of clusters
+     */
+    public int getNumberOfClusters() {
+        return numberOfClusters;
     }
 
     /**
@@ -108,10 +117,11 @@ public class Dataset {
     /**
      * Loads real centroids from file.
      *
-     * @throws NumberFormatException if there is an issue parsing the file
      * @throws IOException           if the file cannot be accessed
+     * @throws IllegalArgumentException if the number of clusters in file does not match with the user's input
+     *                                  or there is an error parsing the file
      */
-    public void loadRealCentroids(String filename) throws NumberFormatException, IOException {
+    public void loadRealCentroids(String filename) throws IOException, IllegalArgumentException {
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         ArrayList<double[]> realCentroids = new ArrayList<>();
@@ -137,6 +147,13 @@ public class Dataset {
             realCentroids.add(d);
         }
         br.close();
+
+        if(realCentroids.size() != numberOfClusters){
+            System.err.println("Number of clusters specified does not match the number of "
+                    + "clusters in the real centroid file: " + numberOfClusters + " vs "
+                    + realCentroids.size());
+            throw new IllegalArgumentException("Invalid number of clusters");
+        }
 
         this.realCentroids = realCentroids
                 .toArray(new double[realCentroids.size()][realCentroids.get(0).length]);
@@ -184,18 +201,24 @@ public class Dataset {
     }
 
     /**
-     * Reduces the training data to given size by removing random vectors
+     * Reduces the training data to given size by removing random vectors.
      */
     public void reduceSize(int newSize) {
         if (newSize > data.length) {
             throw new IllegalArgumentException("reduceSize(): newSize is larger than dataset size");
         }
+        if (newSize < 0) {
+            throw new IllegalArgumentException("reduceSize(): newSize cannot be negative");
+        }
         Integer[] keptIndices = pickRandom(data.length, newSize);
         double[][] newData = new double[newSize][data[0].length];
+        int[] newPartitions = new int[newSize];
         for (int i = 0; i < keptIndices.length; i++) {
             newData[i] = data[keptIndices[i]];
+            newPartitions[i] = partitions[keptIndices[i]];
         }
         data = newData;
+        partitions = newPartitions;
     }
 
     /**
@@ -308,11 +331,15 @@ public class Dataset {
 
     /**
      * @return nearest centroid label (index) for point
+     * @throws IllegalArgumentException if the dimensions don't match
      */
-    public static int nearestIndex(double[] point, double[][] centroids) {
+    public static int nearestIndex(double[] point, double[][] centroids) throws IllegalArgumentException {
         double minDist = Double.POSITIVE_INFINITY;
         int minLabel = -1;
         for (int i = 0; i < centroids.length; i++) {
+            if(centroids[i].length != point.length){
+                throw new IllegalArgumentException("nearestIndex(): Point dimension does not match the centoid dimension");
+            }
             double dist = distSq(point, centroids[i]);
             if (dist < minDist) {
                 minDist = dist;
@@ -324,8 +351,12 @@ public class Dataset {
 
     /**
      * @return Squared euclidean distance between 2 points
+     * @throws IllegalArgumentException if the point dimensions don't match
      */
-    public static double distSq(double[] p1, double[] p2) {
+    public static double distSq(double[] p1, double[] p2) throws IllegalArgumentException{
+        if(p1.length != p2.length){
+            throw new IllegalArgumentException("distSq(): the point dimension don't match");
+        }
         double sum = 0;
         for (int d = 0; d < p1.length; d++) {
             sum += (p1[d] - p2[d]) * (p1[d] - p2[d]);

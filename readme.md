@@ -5,9 +5,9 @@ Course page: http://cs.uef.fi/pages/franti/cluster/
 Datasets from: http://cs.uef.fi/sipu/datasets/ (spring 2017). Included in repository for convenience.
 
 # Instructions
-Compile: javac Clustering.java
+Compile: javac main.Clustering.java
 
-Run: java Clustering <input file> <number of clusters>
+Run: java main.Clustering <input file> <number of clusters>
 
 Additional options: 
     

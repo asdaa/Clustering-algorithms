@@ -132,7 +132,7 @@ public class Clustering {
 	 */
 	private static void printUsage() {
 		System.out.println();
-		System.out.println("Usage: java Clustering <input file> <number of clusters>");
+		System.out.println("Usage: java main.Clustering <input file> <number of clusters>");
 		System.out.println("Additional options:");
 		System.out.println("\t\t-c <real centroids file name>");
 		System.out.println("\t\t-r <number of repeats>");
@@ -146,7 +146,7 @@ public class Clustering {
 	}
 
 	/**
-	 * Dataset (and best clustering result found)
+	 * main.Dataset (and best clustering result found)
 	 */
 	public Dataset dataset;
 
@@ -182,10 +182,17 @@ public class Clustering {
 			e.printStackTrace();
 			System.err.println("Unable to read input file");
 			System.exit(1);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-			System.err.println("Input file is not properly formatted.");
-			System.exit(1);
+		} catch (IllegalArgumentException e) {
+			if(e instanceof NumberFormatException){
+				e.printStackTrace();
+				System.err.println("Input file is not properly formatted.");
+				System.exit(1);
+			} else {
+				e.printStackTrace();
+				System.err.println(e.getMessage());
+				System.exit(1);
+			}
+
 		}
 		
 		if (realCentroidFilename != null && realCentroidFilename.length() > 0) {
@@ -195,17 +202,16 @@ public class Clustering {
 				e.printStackTrace();
 				System.err.println("Unable to read real centroid file");
 				System.exit(1);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				System.err.println("Real centroid file is not properly formatted.");
-				System.exit(1);
-			}
-
-			if(dataset.numberOfClusters != dataset.realCentroids.length){
-				System.err.println("Number of clusters specified does not match the number of "
-						+ "clusters in the real centroid file: " + numberOfClusters + " vs " 
-						+ dataset.realCentroids.length);
-				System.exit(1);
+			} catch(IllegalArgumentException e){
+				if(e instanceof NumberFormatException){
+					e.printStackTrace();
+					System.err.println("Real centroid file is not properly formatted.");
+					System.exit(1);
+				} else if(e.getMessage().contains("Number of clusters specified does not match")) {
+					e.printStackTrace();
+					System.err.println("The number of clusters specified does not match with the real centroids file.");
+					System.exit(1);
+				}
 			}
 		}
 		this.algorithm = algorithm;
