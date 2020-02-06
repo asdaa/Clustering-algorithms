@@ -12,7 +12,7 @@ import java.io.IOException;
 public class Clustering {
 
 	/**
-	 * Program's main function. Parses the command line arguments.
+	 * Program's main function. Parses the command line arguments, runs the clustering, dumps result to file.
 	 *
 	 */
 	public static void main(String[] args)  {
@@ -146,7 +146,7 @@ public class Clustering {
 	}
 
 	/**
-	 * main.Dataset (and best clustering result found)
+	 * Dataset (and best clustering result found)
 	 */
 	public Dataset dataset;
 

@@ -155,6 +155,14 @@ class DatasetTest {
         final Dataset set2 = new Dataset("src/test/testdata/s2.txt", 5);
         assertThrows(IllegalArgumentException.class, () -> set2.loadRealCentroids("src/test/testdata/s2-centroids.txt"));
 
+        // file has nonnumerical data
+        final Dataset set4 = new Dataset("src/test/testdata/s2.txt", 15);
+        assertThrows(IllegalArgumentException.class, () -> set4.loadRealCentroids("src/test/testdata/s2-nonnumerical.txt"));
+
+        // file has mismatching dimensions
+        final Dataset set5 = new Dataset("src/test/testdata/s2.txt", 15);
+        assertThrows(IllegalArgumentException.class, () -> set5.loadRealCentroids("src/test/testdata/s2-invalid_dimensions.txt"));
+
         // file does not exist
         final Dataset set3 = new Dataset("src/test/testdata/s2.txt", 15);
         assertThrows(IOException.class, () -> set3.loadRealCentroids("src/test/testdata/doesnotexist.txt"));
@@ -213,6 +221,10 @@ class DatasetTest {
             set.partition();
         }
         assertTrue(set.MSE() < initialMSE);
+
+        // without centroid initialization
+        set = new Dataset("src/test/testdata/s2.txt", 15);
+        set.updateCentroids();
     }
 
     @Test

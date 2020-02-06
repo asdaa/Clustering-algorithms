@@ -38,28 +38,30 @@ public class Dataset {
 
 
     /**
+     * Constructs dataset from pre-loaded matrix. Centroids initialized to random vectors.
      * @param data the data matrix
      * @param numberOfClusters number of clusters to calculate
      * @throws IllegalArgumentException if the data dimensions don't match or the number of clusters is invalid
      */
     public Dataset(double[][] data, int numberOfClusters) throws IllegalArgumentException {
         if (numberOfClusters <= 0)
-            throw new IllegalArgumentException("Dataset(): Number of clusters cannot be <= 0");
+            throw new IllegalArgumentException("Number of clusters cannot be <= 0");
         if (numberOfClusters > data.length)
-            throw new IllegalArgumentException("Dataset(): The number of clusters is greater than the number of data vectors");
+            throw new IllegalArgumentException("The number of clusters is greater than the number of data vectors");
 
         if(data.length > 0){
             for(double[] v : data){
                 if(v.length != data[0].length)
-                    throw new IllegalArgumentException("Dataset(): Data dimensions don't match");
+                    throw new IllegalArgumentException("Data dimensions don't match");
             }
         }
         this.data = data;
         this.numberOfClusters = numberOfClusters;
+        initializeRandomCentroids();
     }
 
     /**
-     * Constructor that loads the training vectors from file
+     * Constructor that loads the training vectors from file. Centroids initialized to random vectors.
      *
      * @param filename file name to load data matrix from (columns separated by whitespace, rows by newline)
      * @param numberOfClusters number of clusters to calculate
@@ -69,7 +71,7 @@ public class Dataset {
      */
     public Dataset(String filename, int numberOfClusters) throws IOException, IllegalArgumentException {
         if (numberOfClusters <= 0)
-            throw new IllegalArgumentException("Dataset(): Number of clusters cannot be <= 0");
+            throw new IllegalArgumentException("Number of clusters cannot be <= 0");
         BufferedReader br = new BufferedReader(new FileReader(filename));
 
         int dimensions = -1;
@@ -91,7 +93,7 @@ public class Dataset {
                 dimensions = d.length;
 
             if (d.length != dimensions) {
-                throw new IllegalArgumentException("Dataset(): Data dimensions don't match");
+                throw new IllegalArgumentException("Data dimensions don't match");
             }
 
             data.add(d);
@@ -99,11 +101,12 @@ public class Dataset {
         br.close();
 
         if (numberOfClusters > data.size())
-            throw new IllegalArgumentException("Dataset(): The number of clusters is greater than the number of data vectors");
+            throw new IllegalArgumentException("The number of clusters is greater than the number of data vectors");
 
 
         this.numberOfClusters = numberOfClusters;
         this.data = data.toArray(new double[data.size()][data.get(0).length]);
+        initializeRandomCentroids();
     }
 
     /**
@@ -202,8 +205,7 @@ public class Dataset {
             }
 
             if (d.length != data[0].length) {
-                System.err.println("loadRealCentroids(): centroid dimensions don't match with data");
-                System.exit(1);
+                throw new IllegalArgumentException("Centroid dimensions don't match with data");
             }
 
             realCentroids.add(d);
@@ -211,10 +213,8 @@ public class Dataset {
         br.close();
 
         if(realCentroids.size() != numberOfClusters){
-            System.err.println("Number of clusters specified does not match the number of "
-                    + "clusters in the real centroid file: " + numberOfClusters + " vs "
-                    + realCentroids.size());
-            throw new IllegalArgumentException("Invalid number of clusters");
+            throw new IllegalArgumentException("Mismatching number of clusters between real centroids file and" +
+                    " given parameters.");
         }
 
         this.realCentroids = realCentroids

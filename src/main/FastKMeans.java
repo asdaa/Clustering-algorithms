@@ -52,7 +52,7 @@ public class FastKMeans implements ClusteringAlgorithm {
      * @param active        active centroids indices
      * @param dataset       dataset to partition
      */
-    public static void partition(double[] prevDistances, ArrayList<Integer> active, Dataset dataset) {
+    private static void partition(double[] prevDistances, ArrayList<Integer> active, Dataset dataset) {
         for (int i = 0; i < dataset.data.length; i++) {
             double currentDist = Dataset.distSq(dataset.data[i],
                     dataset.centroids[dataset.partitions[i]]);
