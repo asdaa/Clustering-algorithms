@@ -1,11 +1,16 @@
 This repository contains the algorithms I implemented during clustering methods course in 2017 with 
-some added tests and slight modifications. The algorithms take in numeric data vectors and attempt to find
+ added tests and slight modifications. Some of the tests involve a random element which may cause
+failures in rare cases.
+
+The algorithms take in numeric data vectors and attempt to find
 clusters in the data. The calculated centroid locations are written to a file. Each data vector can be
 assigned to a cluster based on the nearest centroid.
 
 Course page: http://cs.uef.fi/pages/franti/cluster/
 
 Datasets from: http://cs.uef.fi/sipu/datasets/ (spring 2017). Included in repository for convenience.
+
+![Example clusters](imgs/s1.png)
 
 # Instructions for running
 You can build the project with Gradle, or by do executing `javac Clustering.java` in the source folder (in which
@@ -101,7 +106,18 @@ clusters and it is difficult to find a decent result using k-means.
 - dim032: 32-dimensional data, 1024 vectors, 16 clusters
 - bridge: 4096 vectors, 16 dimensions. 4x4 pixel blocks from a grayscale image in a vector form. No real clusters, the
 vectors form a larger "blob". A real world use case for this dataset could be quantization of values rather than
-trying to detect cluster formations in the data.
+trying to detect any actual cluster formations in the data.
+
+___An example clustering of birch2___ 
+![Birch2 dataset](imgs/birch2.png)
+![Birch2 dataset](imgs/birch2 clusters.png)
+It can be seen that many neighboring clusters have been combined together and some clusters
+have been split into multiple parts. Please note that many differing colors may have a very similar hue.
+
+On the other hand, the random swap algorithm performs much better with only a few erroneous clusters:
+![Birch2 dataset](imgs/birch2 rs.png)
+
+
 # Benchmarks
 Some quick benchmarks done on an i7-9700k processor.
 
