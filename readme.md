@@ -8,7 +8,11 @@ Course page: http://cs.uef.fi/pages/franti/cluster/
 Datasets from: http://cs.uef.fi/sipu/datasets/ (spring 2017). Included in repository for convenience.
 
 # Instructions for running
-Execute in output directory: java Clustering <input file> <number of clusters>
+You can build the project with Gradle, or by do executing `javac Clustering.java` in the source folder (in which
+case the class files will be dumped in the same directory).
+
+Run by executing: `java Clustering <input file> <number of clusters>` in whichever directory the class files are located.
+Or alternatively, take a look at "run kmeans.bat" file.
 
 Additional options: 
     
