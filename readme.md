@@ -111,12 +111,15 @@ trying to detect any actual cluster formations in the data.
 
 ___An example clustering of birch2___ 
 ![Birch2 dataset](imgs/birch2.png)
-![Birch2 dataset](imgs/birch2 clusters.png)
-When using the k-means algorithm, tt can be seen that many neighboring clusters have been combined together and some 
-clusters have been split into multiple parts. Please note that many differing colors may have a very similar hue.
+![Birch2 k-means result](imgs/birch2_clusters.png)
+
+When using the k-means algorithm, it can be seen that many neighboring clusters have been combined together and some 
+clusters have been split into multiple parts (not all of them are marked). 
+Please note that many differing colors may have a very similar hue.
 
 On the other hand, the random swap algorithm performs much better with only a few erroneous clusters:
-![Birch2 dataset](imgs/birch2 rs.png)
+
+![Birch2 random swap result](imgs/birch2_rs.png)
 
 
 # Benchmarks
