@@ -132,7 +132,7 @@ public class Clustering {
 	 */
 	private static void printUsage() {
 		System.out.println();
-		System.out.println("Usage: java main.Clustering <input file> <number of clusters>");
+		System.out.println("Usage: java Clustering <input file> <number of clusters>");
 		System.out.println("Additional options:");
 		System.out.println("\t\t-c <real centroids file name>");
 		System.out.println("\t\t-r <number of repeats>");

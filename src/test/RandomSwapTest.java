@@ -50,7 +50,7 @@ class RandomSwapTest {
             double[][] initialCentroids = set.getCentroids(); // copy
             // the number of iterations is lowered since RS takes longer time to run
             // it should be noted that k-means likes to exit early, which makes it much quicker to run
-            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new RandomSwap().cluster(set, 250));
+            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new RandomSwap().cluster(set, 100));
             rsTSEs.add(set.TSE());
 
             set.centroids = initialCentroids;
