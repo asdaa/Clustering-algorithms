@@ -210,15 +210,14 @@ public class Dataset {
             }
 
             if (d.length != data[0].length) {
-                throw new IllegalArgumentException("Centroid dimensions don't match with data");
+                throw new IllegalArgumentException("loadRealCentroids(): Centroid dimensions don't match with data");
             }
 
             realCentroids.add(d);
         }
         br.close();
-
         if(realCentroids.size() != numberOfClusters){
-            throw new IllegalArgumentException("Mismatching number of clusters between real centroids file and" +
+            throw new IllegalArgumentException("loadRealCentroids(): Mismatching number of clusters between real centroids file and" +
                     " given parameters.");
         }
 

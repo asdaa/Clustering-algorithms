@@ -196,7 +196,7 @@ public class Clustering {
 			}
 
 		}
-		
+
 		if (realCentroidFilename != null && realCentroidFilename.length() > 0) {
 			try {
 				dataset.loadRealCentroids(realCentroidFilename);
@@ -209,7 +209,7 @@ public class Clustering {
 					e.printStackTrace();
 					System.err.println("Real centroid file is not properly formatted.");
 					System.exit(1);
-				} else if(e.getMessage().contains("Number of clusters specified does not match")) {
+				} else if(e.getMessage().contains("Mismatching number of clusters")) {
 					e.printStackTrace();
 					System.err.println("The number of clusters specified does not match with the real centroids file.");
 					System.exit(1);
