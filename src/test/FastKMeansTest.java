@@ -68,19 +68,20 @@ class FastKMeansTest {
         LinkedList<Long> fkmTimes = new LinkedList<>();
         LinkedList<Long> kmTimes = new LinkedList<>();
 
-        Dataset set = new Dataset("src/test/testdata/birch2.txt", 15);
+        Dataset set = new Dataset("src/test/testdata/birch2.txt", 100);
+        set.reduceSize(set.data.length / 10);
         for(int i = 0; i < 20; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
             long start = System.nanoTime();
-            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new FastKMeans().cluster(set));
+            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new FastKMeans().cluster(set, 500));
             fkmTimes.add(System.nanoTime() - start);
             double[][] fkmCentroids = set.getCentroids();
 
             set.centroids = initialCentroids;
             set.partition();
             start = System.nanoTime();
-            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new KMeans().cluster(set));
+            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new KMeans().cluster(set, 500));
             kmTimes.add(System.nanoTime() - start);
             assertTrue(Arrays.deepEquals(fkmCentroids, set.getCentroids()));
         }
