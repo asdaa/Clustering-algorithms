@@ -167,7 +167,7 @@ public class Clustering {
 	public double runtimeMs = 0;
 	
 	/**
-	 * Creates a new clustering runner.
+	 * Creates a new clustering algorithm runner.
 	 * @param filename
 	 *            dataset file name
 	 * @param numberOfClusters

@@ -35,7 +35,7 @@ public class StochasticRelaxation implements ClusteringAlgorithm {
      * @param temperatureAlpha governs how quickly the random movement slows down. Value in range ]0,1[
      */
     public StochasticRelaxation(double temperatureAlpha) throws IllegalArgumentException{
-        if(temperatureAlpha <= 0 && temperatureAlpha >= 1)
+        if(temperatureAlpha <= 0 || temperatureAlpha >= 1)
             throw new IllegalArgumentException("StochasticRelaxation(): temperatureAlpha is not within acceptable range: ]0, 1[");
     	this.temperatureAlpha = temperatureAlpha;
     }
