@@ -1,22 +1,26 @@
-This repository contains the algorithms I implemented during clustering methods course in 2017.
+This repository contains the algorithms I implemented during clustering methods course in 2017 with 
+some added tests and slight modifications. The algorithms take in numeric data vectors and attempt to find
+clusters in the data. The calculated centroid locations are written to a file. Each data vector can be
+assigned to a cluster based on the nearest centroid.
 
 Course page: http://cs.uef.fi/pages/franti/cluster/
 
 Datasets from: http://cs.uef.fi/sipu/datasets/ (spring 2017). Included in repository for convenience.
 
-# Instructions
-Compile: javac main.Clustering.java
-
-Run: java main.Clustering <input file> <number of clusters>
+# Instructions for running
+Execute in output directory: java Clustering <input file> <number of clusters>
 
 Additional options: 
     
     -c <known centroids file name>
-        The real centroids can be used to assess clustering performance by comparing the found clusters to known
+        The real centroids can be used to assess clustering performance by comparing the calculated centroids to known
         ones. Measured with "centroid index" score (CI).
     -r <number of repeats>
+        Since the initial position of the centroids is randomized, repeated runs of the chosen algorithm can improve the
+        clustering result.
     -o <output file name>
-        default: <input file>-centroids.txt
+        The output file contains the calculated centroids.
+        default: <input file name>-centroids.txt
     -a <algorithm name> 
     	fkm 	- fast k-means (default)
     	rs      - random swap
