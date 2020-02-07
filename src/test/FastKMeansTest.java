@@ -16,12 +16,12 @@ class FastKMeansTest {
         for(int i = 0; i < 25; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
-            assertTimeoutPreemptively(Duration.ofMillis(3000), () -> new FastKMeans().cluster(set));
+            assertTimeoutPreemptively(Duration.ofMillis(5000), () -> new FastKMeans().cluster(set));
             double[][] fkmCentroids = set.getCentroids();
 
             set.centroids = initialCentroids;
             set.partition();
-            assertTimeoutPreemptively(Duration.ofMillis(3000), () -> new KMeans().cluster(set));
+            assertTimeoutPreemptively(Duration.ofMillis(5000), () -> new KMeans().cluster(set));
             assertTrue(Arrays.deepEquals(fkmCentroids, set.getCentroids()));
         }
 
@@ -47,12 +47,12 @@ class FastKMeansTest {
             set.initializeRandomCentroids();
             for(int j = 0; j < 10; j++){
                 double[][] initialCentroids = set.getCentroids(); // copy
-                assertTimeoutPreemptively(Duration.ofMillis(1000), () -> new FastKMeans().cluster(set, 1));
+                assertTimeoutPreemptively(Duration.ofMillis(2000), () -> new FastKMeans().cluster(set, 1));
                 double[][] fkmCentroids = set.getCentroids();
 
                 set.centroids = initialCentroids;
                 set.partition();
-                assertTimeoutPreemptively(Duration.ofMillis(1000), () -> new KMeans().cluster(set, 1));
+                assertTimeoutPreemptively(Duration.ofMillis(2000), () -> new KMeans().cluster(set, 1));
                 assertTrue(Arrays.deepEquals(fkmCentroids, set.getCentroids()));
             }
         }
@@ -69,7 +69,7 @@ class FastKMeansTest {
         LinkedList<Long> kmTimes = new LinkedList<>();
 
         Dataset set = new Dataset("src/test/testdata/birch2.txt", 100);
-        set.reduceSize(set.data.length / 10);
+        set.reduceSize(set.data.length / 20);
         for(int i = 0; i < 20; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy

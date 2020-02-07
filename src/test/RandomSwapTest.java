@@ -27,8 +27,7 @@ class RandomSwapTest {
         //this is done in batches of 100 swaps to allow early exit
         boolean matches = true;
         for(int i = 0; i < 100; i++){
-            assertTimeoutPreemptively(Duration.ofMillis(3000), () -> rs.cluster(set, 100));
-            System.out.println(set.MSE());
+            assertTimeoutPreemptively(Duration.ofMillis(5000), () -> rs.cluster(set, 100));
             if(set.MSE() / targetMSE < 1 + EPSILON)
                 break;
         }
@@ -44,7 +43,7 @@ class RandomSwapTest {
         LinkedList<Double> kmTSEs = new LinkedList<>();
 
         Dataset set = new Dataset("src/test/testdata/birch2.txt", 100);
-        set.reduceSize(set.data.length / 10);
+        set.reduceSize(set.data.length / 20);
         for(int i = 0; i < 20; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy

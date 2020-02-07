@@ -19,6 +19,7 @@ class StochasticRelaxationTest {
         // if you repeat both algorithms multiple times.
 
         Dataset set = new Dataset("src/test/testdata/bridge.txt", 128);
+        set.reduceSize(set.data.length/2);
         for(int i = 0; i < 10; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
@@ -34,7 +35,7 @@ class StochasticRelaxationTest {
 
         // try with a harder set
         Dataset set2 = new Dataset("src/test/testdata/birch2.txt", 100);
-        set2.reduceSize(set2.data.length/10);
+        set2.reduceSize(set2.data.length/20);
         for(int i = 0; i < 5; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
@@ -57,7 +58,7 @@ class StochasticRelaxationTest {
         LinkedList<Double> kmTSEs = new LinkedList<>();
 
         Dataset set = new Dataset("src/test/testdata/bridge.txt", 128);
-        set.reduceSize(set.data.length/4);
+        set.reduceSize(set.data.length/8);
         for(int i = 0; i < 20; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
