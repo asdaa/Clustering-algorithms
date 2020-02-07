@@ -110,7 +110,10 @@ vectors form a larger "blob". A real world use case for this dataset could be qu
 trying to detect any actual cluster formations in the data.
 
 ___An example clustering of birch2___ 
+
+
 ![Birch2 dataset](imgs/birch2.png)
+
 ![Birch2 k-means result](imgs/birch2_clusters.png)
 
 When using the k-means algorithm, it can be seen that many neighboring clusters have been combined together and some 
