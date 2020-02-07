@@ -39,12 +39,12 @@ class StochasticRelaxationTest {
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
             // set the temperature alpha to a high value to guarantee a good result
-            assertTimeoutPreemptively(Duration.ofMillis(3000), () -> new StochasticRelaxation(0.98).cluster(set));
+            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new StochasticRelaxation(0.98).cluster(set));
             double srTSE = set.TSE();
 
             set.centroids = initialCentroids;
             set.partition();
-            assertTimeoutPreemptively(Duration.ofMillis(3000), () -> new KMeans().cluster(set));
+            assertTimeoutPreemptively(Duration.ofMillis(10000), () -> new KMeans().cluster(set));
             assertTrue(srTSE / set.TSE() < 1 + EPSILON);
         }
     }
