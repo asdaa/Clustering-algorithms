@@ -61,8 +61,8 @@ class RandomSwapTest {
         rsTSEs.sort(Comparator.naturalOrder());
         kmTSEs.sort(Comparator.naturalOrder());
         System.out.println("Benchmark:\tRandom swap " + rsTSEs.get(rsTSEs.size()/2) + " TSE median");
-        System.out.println("\t\t\tk-means " + kmTSEs.get(rsTSEs.size()/2) + " TSE median" );
-        assertTrue(rsTSEs.get(rsTSEs.size()/2) < kmTSEs.get(rsTSEs.size()/2));
+        System.out.println("\t\t\tk-means " + kmTSEs.get(kmTSEs.size()/2) + " TSE median" );
+        assertTrue(rsTSEs.get(rsTSEs.size()/2) < kmTSEs.get(kmTSEs.size()/2));
     }
 
 }

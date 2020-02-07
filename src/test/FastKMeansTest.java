@@ -26,7 +26,7 @@ class FastKMeansTest {
         }
 
         // try with a harder set
-        Dataset set2 = new Dataset("src/test/testdata/birch2.txt", 15);
+        Dataset set2 = new Dataset("src/test/testdata/birch2.txt", 100);
         for(int i = 0; i < 5; i++){
             set.initializeRandomCentroids();
             double[][] initialCentroids = set.getCentroids(); // copy
