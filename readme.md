@@ -1,6 +1,7 @@
+# Introduction
 This repository contains the algorithms I implemented during clustering methods course in 2017 with 
- added tests and slight modifications. Some of the tests involve a random element which may cause
-failures in rare cases.
+added tests and slight modifications. I also reran some of my original benchmarks on a more powerful machine.
+Some of the tests involve a random element which may cause failures in rare cases.
 
 The algorithms take in numeric data vectors and attempt to find
 clusters in the data. The calculated centroid locations are written to a file. Each data vector can be
@@ -111,8 +112,8 @@ trying to detect any actual cluster formations in the data.
 ___An example clustering of birch2___ 
 ![Birch2 dataset](imgs/birch2.png)
 ![Birch2 dataset](imgs/birch2 clusters.png)
-It can be seen that many neighboring clusters have been combined together and some clusters
-have been split into multiple parts. Please note that many differing colors may have a very similar hue.
+When using the k-means algorithm, tt can be seen that many neighboring clusters have been combined together and some 
+clusters have been split into multiple parts. Please note that many differing colors may have a very similar hue.
 
 On the other hand, the random swap algorithm performs much better with only a few erroneous clusters:
 ![Birch2 dataset](imgs/birch2 rs.png)
@@ -122,8 +123,10 @@ On the other hand, the random swap algorithm performs much better with only a fe
 Some quick benchmarks done on an i7-9700k processor.
 
 5 minute runtime. A single instance of the random swap algorithm was run for the 5 minutes. The other algorithms
-were repeated as many times as possible within the same time frame. Mean Squared Error metric was used: for each data
-vactor, calculate the squared distance to the nearest cluster centroid and sum these distances.
+were repeated as many times as possible within the same time frame. 
+
+Mean Squared Error metric was used: for each data vector, calculate the squared distance to the nearest cluster centroid 
+and sum these distances. For a quality result, the distances should be minimized.
 
 |DATASET| vectors/clusters| k-means|fast k-m|Rnd swap|St. rel.|
 |-------|-----------------|--------|--------|--------|--------|
