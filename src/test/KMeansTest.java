@@ -5,7 +5,14 @@ import java.time.Duration;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Tests for the k-means clustering algorithm class. Rest of the algorithms
+ * are evaluated against k-means, which makes this the most important
+ * algorithm to validate.
+ *
+ * TODO: split the methods into individual test cases
+ * @author Juho Puumalainen
+ */
 class KMeansTest {
     private final double EPSILON =  0.00000000001;
 
@@ -47,7 +54,7 @@ class KMeansTest {
     }
 
     @Test
-    void twoSyntheticClustersFull() throws IOException {
+    void twoSyntheticClustersFull() {
         double[][] data = new double[4096][2];
         // first cluster around (0, -0.5), radius 1
         for(int i = 0; i < data.length / 2; i++){
@@ -77,7 +84,7 @@ class KMeansTest {
     }
 
     @Test
-    void twoSyntheticClustersStepByStep() throws IOException {
+    void twoSyntheticClustersStepByStep() {
         double[][] data = new double[4096][2];
         // first cluster around (0, -0.5), radius 1
         for(int i = 0; i < data.length / 2; i++){
@@ -110,7 +117,7 @@ class KMeansTest {
         set.centroids = new double[][]{{0, -0.05}, {0, +0.05}};
         set.partition();
         assertTimeoutPreemptively(Duration.ofMillis(500), () -> new KMeans().cluster(set, 5));
-        assertTrue(set.TSE() == TSE);
+        assertEquals(TSE, set.TSE());
     }
 
 }

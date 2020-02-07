@@ -13,7 +13,7 @@ public class Clustering {
 
 	/**
 	 * Program's main function. Parses the command line arguments, runs the clustering, dumps result to file.
-	 *
+	 * @param args command line arguments
 	 */
 	public static void main(String[] args)  {
 		if (args.length < 2) {
@@ -167,13 +167,15 @@ public class Clustering {
 	public double runtimeMs = 0;
 	
 	/**
-	 * 
+	 * Creates a new clustering runner.
 	 * @param filename
 	 *            dataset file name
 	 * @param numberOfClusters
 	 *            expected number of clusters
 	 * @param realCentroidFilename
 	 *            file name for real centroid file; can be null
+	 * @param algorithm
+	 * 			algorithm used for clustering
 	 */
 	public Clustering(String filename, int numberOfClusters, String realCentroidFilename, ClusteringAlgorithm algorithm) {
 		try {

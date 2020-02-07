@@ -8,6 +8,19 @@ import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for the random swap clustering algorithm.
+ *
+ * Tests that the algorithm actually finds the centroids
+ * despite the potentially chaotic centroid swapping step.
+ *
+ * Tests whether or not the result is better than k-means
+ * in cases where k-means struggles. Most important factor
+ * is that the performance is not lower.
+ *
+ * TODO: split the methods into individual test cases
+ * @author Juho Puumalainen
+ */
 class RandomSwapTest {
 
     private final double EPSILON =  0.00000000001;

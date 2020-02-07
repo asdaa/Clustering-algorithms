@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests for the Dataset class
  *
- * TODO: split the methods to individual test cases
+ * TODO: split the methods into individual test cases
  * @author Juho Puumalainen
  */
 class DatasetTest {
@@ -141,8 +141,8 @@ class DatasetTest {
         // deep copy of partitions and centroids
         set.partitions[0]++;
         set.centroids[0] = set.centroids[1];
-        assertTrue(!Arrays.equals(set.partitions, set2.partitions));
-        assertTrue(!Arrays.deepEquals(set.centroids, set2.centroids));
+        assertFalse(Arrays.equals(set.partitions, set2.partitions));
+        assertFalse(Arrays.deepEquals(set.centroids, set2.centroids));
     }
 
     @Test

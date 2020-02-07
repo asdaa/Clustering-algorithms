@@ -61,7 +61,10 @@ public class Dataset {
     }
 
     /**
-     * Constructor that loads the training vectors from file. Centroids initialized to random vectors.
+     * Constructor that loads the training vectors from a text file. The file should contain a single vector per line
+     * and its components should be separated by whitespace.
+     *
+     * Centroids are initialized to random vectors.
      *
      * @param filename file name to load data matrix from (columns separated by whitespace, rows by newline)
      * @param numberOfClusters number of clusters to calculate
@@ -180,7 +183,9 @@ public class Dataset {
     }
 
     /**
-     * Loads real centroids from file.
+     * Loads real centroids from file. File should contain a single vector per line, components separated by whitespace.
+     *
+     * @param filename Path to real centroids text file.
      *
      * @throws IOException           if the file cannot be accessed
      * @throws IllegalArgumentException if the number of clusters in file does not match with the user's input
@@ -264,6 +269,8 @@ public class Dataset {
 
     /**
      * Reduces the training data to given size by removing random vectors.
+     *
+     * @param newSize New size of the dataset. Values in range [0, data.size]
      */
     public void reduceSize(int newSize) {
         if (newSize > data.length) {
@@ -392,6 +399,9 @@ public class Dataset {
     }
 
     /**
+     * Finds the nearest centroid for a given point.
+     * @param point Point whose nearest centroid we are looking for
+     * @param centroids List of centroids
      * @return nearest centroid label (index) for point
      * @throws IllegalArgumentException if the dimensions don't match
      */
@@ -412,7 +422,10 @@ public class Dataset {
     }
 
     /**
-     * @return Squared euclidean distance between 2 points
+     * Calculates distance between two points.
+     * @param p1 point #1
+     * @param p2 point #2
+     * @return Squared euclidean distance between the points
      * @throws IllegalArgumentException if the point dimensions don't match
      */
     public static double distSq(double[] p1, double[] p2) throws IllegalArgumentException{
@@ -427,7 +440,10 @@ public class Dataset {
     }
 
     /**
-     * @return array of n integers from interval [0, max[
+     * Calculates array of n integers from interval [0, max[.
+     * @param max maximum value, exclusive
+     * @param n number of sampled numbers
+     * @return selected
      */
     private static Integer[] pickRandom(int max, int n) {
         if (n > max) {

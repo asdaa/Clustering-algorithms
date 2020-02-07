@@ -2,15 +2,33 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests for the random swap clustering algorithm.
+ *
+ * Compares the result to k-means to confirm
+ * the improvement in clustering quality.
+ *
+ * TODO: split the methods into individual test cases
+ * @author Juho Puumalainen
+ */
 class StochasticRelaxationTest {
 
     private final double EPSILON =  0.00000000001;
+
+    @Test
+    void constructor(){
+        new StochasticRelaxation(0.95); // should work without exception
+        // acceptable argument value in 0...1 (exclusive bounds)
+        assertThrows(IllegalArgumentException.class, () -> new StochasticRelaxation(1.5));
+        assertThrows(IllegalArgumentException.class, () -> new StochasticRelaxation(1));
+        assertThrows(IllegalArgumentException.class, () -> new StochasticRelaxation(0));
+        assertThrows(IllegalArgumentException.class, () -> new StochasticRelaxation(-0.5));
+    }
 
     @Test
     void compareToKMeans() throws IOException {

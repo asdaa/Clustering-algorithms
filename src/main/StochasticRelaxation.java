@@ -17,7 +17,7 @@ public class StochasticRelaxation implements ClusteringAlgorithm {
      * Constant base of the temperature function. Value in range
      * (0, 1). Lower value makes the algorithm converge faster
      * but produces a (potentially) worse result.
-     * <p>
+     *
      * Value 0.95 suggested by the paper.
      */
     private double temperatureAlpha = 0.975;
@@ -31,8 +31,12 @@ public class StochasticRelaxation implements ClusteringAlgorithm {
     /**
      * Constructor that allows specifying the alpha value
      * of the temperature function
+     *
+     * @param temperatureAlpha governs how quickly the random movement slows down. Value in range ]0,1[
      */
-    public StochasticRelaxation(double temperatureAlpha) {
+    public StochasticRelaxation(double temperatureAlpha) throws IllegalArgumentException{
+        if(temperatureAlpha <= 0 && temperatureAlpha >= 1)
+            throw new IllegalArgumentException("StochasticRelaxation(): temperatureAlpha is not within acceptable range: ]0, 1[");
     	this.temperatureAlpha = temperatureAlpha;
     }
 

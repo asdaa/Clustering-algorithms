@@ -7,7 +7,14 @@ import java.util.Comparator;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+/**
+ * Tests for the fast k-means clustering algorithm class.
+ * Confirms that the functionality matches standard k-means
+ * and evaluates the performance.
+ *
+ * TODO: split the methods into individual test cases
+ * @author Juho Puumalainen
+ */
 class FastKMeansTest {
 
     @Test
